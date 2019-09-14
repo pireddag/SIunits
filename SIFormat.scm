@@ -9,9 +9,22 @@
 (tm-define (SIScheme number unit)
 	   (set! number (tree->stree number))
 	   (set! unit (tree->stree unit))
-  (stree->tree `(concat ,number " " (with "math-font-family" "ms" (with "math-font-shape" "right" ,unit)))))
+	   (let ((spacer (setSpacer unit)))
+	     (begin
+	       (set! unit (setUnit unit))
+	       (stree->tree `(concat ,number ,spacer (with "math-font-family" "ms" (with "math-font-shape" "right" ,unit)))))))
 
+(define (setUnit unit)
+  (cond ((equal? unit "degrees") "<degree>")
+	((equal? unit "minutes") "'")
+	((equal? unit "seconds") "")
+	(else unit)))
 
+(define (setSpacer unit)
+  (cond ((equal? unit "degrees") "")
+	((equal? unit "minutes") "")
+	((equal? unit "seconds") "")
+	(else " ")))
 
 					; For the Scheme serialization see section 5 of
 					; http://www.texmacs.org/tmdoc/devel/format/stylesheet/prim-style-misc.de.html
