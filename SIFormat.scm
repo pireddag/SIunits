@@ -14,7 +14,7 @@
 	       (set! unit (setUnit unit))
 	       (stree->tree `(concat ,number ,spacer (with "math-font-family" "ms" (with "math-font-shape" "right" ,unit)))))))
 
-(define (setUnit unit)
+(define (setUnit unit) ; I got the Scheme format of each character by typing the character in TeXmacs and then Edit-> Copy to -> TeXmacs Scheme
   (cond ((equal? unit "degrees") "<degree>")
 	((equal? unit "minutes") "'")
 	((equal? unit "seconds") "")
