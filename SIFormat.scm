@@ -28,7 +28,7 @@
 (define (setUnit unit) ; I got the Scheme format of each character by typing the character in TeXmacs and then Edit-> Copy to -> TeXmacs Scheme
   (cond ((equal? unit "degrees") "<degree>")
 	((equal? unit "minutes") "'")
-	((equal? unit "seconds") "")
+	((equal? unit "seconds") "") ; Here the Github preview of the file shows just a pair of double quotes, but there are two characters inside
 	(else unit)))
 
 (define (setSpacer unit)
