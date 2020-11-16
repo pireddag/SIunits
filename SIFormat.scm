@@ -1,4 +1,4 @@
-(texmacs-module (SIUnits SIFormat))
+(texmacs-module (SIFormat))
 
 ;;; Writes a physical quantity in the format recommended by the SI
 ;;; That is a number, followed by a space, followed by the unit symbol (in roman type).
@@ -8,8 +8,9 @@
 ;;; Section 5.4.3
 ;;; The numerical value always precedes the unit and a space is always used to separate the
 ;;; unit from the number. Thus the value of the quantity is the product of the number and the
-;;; unit. The space between the number and the unit is regarded as a multiplication sign (just as
-;;; a space between units implies multiplication). The only exceptions to this rule are for the
+;;; unit. The space between the number and the unit is regarded by TeXmacs as function application,
+;;; which at the moment (2020-11-16) I am using as a substitute for multiplication (in the same way for
+;;; spaces between units, the multiplication sign does not work with font shape = right). The only exceptions to this rule are for the
 ;;; unit symbols for degree, minute and second for plane angle, °, ′ and ′′, respectively, for
 ;;; which no space is left between the numerical value and the unit symbol.
 ;;; Section 5.2
@@ -19,13 +20,11 @@
 (tm-define (SIScheme number unit)
 	   (set! number (tree->stree number))
 	   (set! unit (tree->stree unit))
-	   (let ((spacer (setSpacer unit))) ; calculating spacer with the input values of unit (the spacer function is written with that in mind)
-	     ; will set unit to the value for typesetting later
-	     (begin
-	       (set! unit (setUnit unit)) ; set unit after calculating spacer, as the spacer function is written with in mind the input values of unit
-	       (stree->tree `(concat ,number ,spacer (with "math-font-family" "ms" (with "math-font-shape" "right" ,unit)))))))
+	   (let ((tsetSpacer (setSpacer unit))
+		 (tsetUnit (setUnit unit))) ; calculates spacer with the input values of unit
+	       (stree->tree `(concat  ,number ,tsetSpacer (with "font-shape" "right" ,tsetUnit)))))
 
-(define (setUnit unit) ; I got the Scheme format of each character by typing the character in TeXmacs and then Edit-> Copy to -> TeXmacs Scheme
+(define (setUnit unit) ; I found out the Scheme format of each character by typing the character in TeXmacs and then Edit-> Copy to -> TeXmacs Scheme
   (cond ((equal? unit "degrees") "<degree>")
 	((equal? unit "minutes") "'")
 	((equal? unit "seconds") "") ; Here the Github preview of the file shows just a pair of double quotes, but there are two characters inside
