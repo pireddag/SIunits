@@ -44,7 +44,8 @@
 	       (display "\n")
 	       (SICompose number unit))))
 
-(tm-define (unitSpacer)
+;; Contextual overloading, Scheme developer guide, 1.5
+(tm-define (unitSpacer) ; default, will be used in regular text
 	   `(hspace "0.5spc"))
 (tm-define (unitSpacer)
 	   (:require (in-math?))
@@ -55,19 +56,29 @@
 ;;(define (unitSpacer) "*")
 
 (define (SICompose number unit)
-  (let ((tsetSpacer (setSpacer (car unit)))) ; calculates spacer with the input values of unit
+  (let ((tSetNumber (setNumber number))
+	(tsetSpacer (setSpacer (car unit)))) ; calculates spacer with the input values of unit
     (begin
       (display "concatenated units")
       (display "\n")
-      (display  (concatenateUnits (withUnits unit)))
-      (stree->tree (append `(concat  ,number ,tsetSpacer)
-			   (concatenateUnits (withUnits unit)))))))
+      (display  (concatenateUnits (withFormat unit)))
+            (display "\n")
+      (display  (append `(concat  ,number ,tsetSpacer)
+			(concatenateUnits (withFormat unit))))
+      (display "\n")
+      (display  (stree->tree (append `(concat  ,tSetNumber ,tsetSpacer)
+			   (concatenateUnits (withFormat unit)))))
+      (stree->tree (append `(concat  ,tSetNumber ,tsetSpacer)
+			   (concatenateUnits (withFormat unit)))))))
 
-(define (setUnit unit) ; I found out the Scheme format of each character by typing the character in TeXmacs and then Edit-> Copy to -> TeXmacs Scheme
-  (cond ((equal? unit "degrees") "<degree>")
-	((equal? unit "minutes") "'")
-	((equal? unit "seconds") "") ; Here the Github preview of the file shows just a pair of double quotes, but there are two characters inside
-	(else unit)))
+;; Two definitions, one for text, one for math
+(tm-define (setNumber number)
+	   `(with "font-shape" "upright" ,number))
+
+(tm-define (setNumber number)
+	   (:require (in-math?))
+	   `(with "math-font-shape" "right" ,number))
+
 
 (define (setSpacer unit)
   (cond ((equal? unit "degrees") "")
@@ -75,7 +86,21 @@
 	((equal? unit "seconds") "")
 	(else " ")))
 
-(define (withUnits unitLst)
+
+(define (setUnit unit) ; I found out the Scheme format of each character by typing the character in TeXmacs and then Edit-> Copy to -> TeXmacs Scheme
+  (cond ((equal? unit "degrees") "<degree>")
+	((equal? unit "minutes") "'")
+	((equal? unit "seconds") "") ; Here the Github preview of the file shows just a pair of double quotes, but there are two characters inside
+	(else unit)))
+
+
+
+;; Add format to units (conditional definitions)
+(tm-define (withFormat unitLst)
+  (map (lambda (x) `(with "font-shape" "upright" ,(setUnit x))) unitLst))
+
+(tm-define (withFormat unitLst)
+  (:require (in-math?))
   (map (lambda (x) `(with "math-font-shape" "right" ,(setUnit x))) unitLst))
 
 ;; Interleaving taken from /home/giovanni/test/test TeXmacs/2 - Test/Test Scheme/testInterleave.scm
@@ -87,9 +112,8 @@
      (denestifyConditional (map (lambda (x)  (cons x (cons uSpacer (list)))) unitLst))
      1)))
 
-;;; =================== 
 ;;; auxiliary functions
-;;;
+
 
 ;; I need a list of symbols at which we stop denestification, and a test for presence in this list
 ;; I cannot use use the find function in srfi-1, see
@@ -163,6 +187,8 @@
   ;; but I did not figure out when
 
 ;;; Tests
+
+;; test find function of srfi-1
   
 ;; (find (lambda (x) (equal? x 'with)) '(with hspace))
 
