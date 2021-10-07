@@ -1,4 +1,4 @@
-<TeXmacs|1.99.16>
+<TeXmacs|2.1>
 
 <style|<tuple|tmdoc|pagella-font|SIUnits_v02|old-lengths>>
 
@@ -11,7 +11,7 @@
   (<hlink|https://ctan.org/pkg/siunitx|https://ctan.org/pkg/siunitx>).
 
   It provides a <TeXmacs> macro named <code*|SI> which takes an arbitrary
-  number of arguments, the fist of which is a number and the rest concur to
+  number of arguments, the first of which is a number and the rest concur to
   form the unit, and typesets the resulting physical quantity.
 </body>
 
