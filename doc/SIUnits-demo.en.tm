@@ -234,7 +234,7 @@
   when using automatic steering
 
   The styling of the text entered as units might or might not be retained;
-  see <smart-ref|sec:styled-input> for details.<todo|complete description>
+  see <smart-ref|sec:styled-input> for details.
 
   <subsection|Styled input><label|sec:styled-input>
 
@@ -246,8 +246,7 @@
   is when one wants to emphasize one of the units; keeping in mind that the
   font shape needs to be <src-textual|upright> by prescription of the
   <name|Bureau International des Poids et Mesures>, one could emphasize the
-  unit using color: <SI|2|<with|color|red|m>|s<rsup|-1>>.<todo|Is this
-  acceptable?>
+  unit using color: <SI|2|<with|color|red|m>|s<rsup|-1>>.
 
   Despite the fact that some styling is not acceptable, here is a survey of
   the effects of applying styles to the input of <markup|SI>.
@@ -279,8 +278,7 @@
 
   <testCase|Sans-serif input to SI>
 
-  <inactive|<SI|2|<samp|m>|s<rsup|-1>>> becomes
-  <SI|2|<samp|m>|s<rsup|-1>><todo|complete with explanation>
+  <inactive|<SI|2|<samp|m>|s<rsup|-1>>> becomes <SI|2|<samp|m>|s<rsup|-1>>
 
   We list a representative series of cases in the following table
 
