@@ -322,10 +322,8 @@
       (second version)
     </testCase>
   </cell>|<cell|yes>|<cell|<math|<inactive|<SI|2|\<b-m\>|s<rsup|-1>>>>>|<cell|<math|<SI|2|\<b-m\>|s<rsup|-1>>>>|<cell|>|<\cell>
-    How is this entered? I do not see the markup!
-
-    (I did F6, which made an italic bold m come up, which appears as such in
-    the source)
+    This is entered using the F6 key shortcut, which makes an italic bold m
+    come up, which appears as such in the source
   </cell>>|<row|<\cell>
     <testCase|Sans-serif in math>
   </cell>|<cell|yes>|<cell|<math|<inactive|<SI|2|<math-ss|m>|s<rsup|-1>>>>>|<cell|<math|<SI|2|<math-ss|m>|s<rsup|-1>>>>|<cell|<markup|math-ss>>|<\cell>
