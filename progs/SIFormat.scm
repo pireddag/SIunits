@@ -143,14 +143,58 @@
 ;; copied as a whole paragraph from the SI manual, 5.4.3, but I do not
 ;; know how it came to be
 
+;; Keyboard shortcuts
 
+(kbd-map
+  ("s i tab" (begin (make `math) (make-hybrid) (insert "si") (kbd-return)) ))
+
+(kbd-map
+  (:mode in-math?)
+  ("s i tab" (begin (make-hybrid) (insert "si") (kbd-return))))
+
+
+
+;; (tm-define (SIScheme mode input)
+;;   (:secure #t)
+;;   (display input)
+;;   (display "\n")
+;;   (let ((inMath? (mathMode? (tree->stree mode))))
+;;     ;; from string to logical value
+;;     (set! input (tree->stree input))
+;;     (display input)
+;;     (display "\n")
+;;     (display (null? input))
+;;     (display "\n")
+;;     (let ((number (car (cdr input)))
+;; 	  (unit (cdr (cdr input))))
+;;       (display "number")
+;;       (display "\n")
+;;       (display number)
+;;             (display "\n")
+;;       (display "unit")
+;;       (display "\n")
+;;       (display unit)
+;;       (display "\n")
+;;       (display (null? unit))
+;;       (if (null? unit)
+;; 	  (set! unit '("")))
+;;       (SICompose number unit inMath?))))
 
 (tm-define (SIScheme mode input)
+  ;; The argument input is passed from the macro as the full tree including the
+  ;; tag; because of this, we need to take its cdr to extract individual arguments
+  (:secure #t)
   (let ((inMath? (mathMode? (tree->stree mode))))
     ;; from string to logical value
     (set! input (tree->stree input))
     (let ((number (car (cdr input)))
-	  (unit (cdr (cdr input))))  
+	  (unit (cdr (cdr input))))
+      (if (null? unit) ; With the current macro setup we use the calling macro
+		       ; with arity one till we add an argument; when arity is
+		       ; one (cdr (cdr input)) is an empty list, which does not
+		       ; work with the rest of the code. In this case we
+		       ; substitute to the null list the '("") list
+	  (set! unit '("")))
       (SICompose number unit inMath?))))
 
 (define (mathMode? mode)
