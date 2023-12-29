@@ -26,7 +26,8 @@
 
 
 (tm-define (SIScheme input)
-	   (display input)
+  (:secure #t)
+  (display input)
 	   (display "\n")
 	   (set! input (tree->stree input))
 	   (display "converted to Scheme:")
@@ -167,7 +168,18 @@
 		    (cons (car lst) (denestifyConditional (cdr lst)))))))
 
   ;; For guile 1.8
-  (define (drop-right lst k) (reverse (list-tail (reverse lst) k)))
+(define (drop-right lst k) (reverse (list-tail (reverse lst) k)))
+
+;; For the tests on presence of strings in the Scheme output
+;; https://stackoverflow.com/questions/33338078/flattening-a-list-in-scheme
+;; answer https://stackoverflow.com/a/33338401
+;; denestifyConditional are adaptation of this
+(define (denestify lst)
+  (cond ((null? lst) '())
+        ((pair? (car lst))
+         (append (denestify (car lst))
+                 (denestify (cdr lst))))
+        (else (cons (car lst) (denestify (cdr lst))))))
 
   ;; For the Scheme serialization see section 5 of
   ;; http://www.texmacs.org/tmdoc/devel/format/stylesheet/prim-style-misc.de.html

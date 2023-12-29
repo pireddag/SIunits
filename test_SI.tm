@@ -1,6 +1,6 @@
-<TeXmacs|1.99.11>
+<TeXmacs|2.1.1>
 
-<style|<tuple|generic|SIUnits>>
+<style|<tuple|generic|SIUnits|old-dots|old-lengths>>
 
 <\body>
   <\hide-preamble>
@@ -31,6 +31,22 @@
   <subparagraph|Exceptions - math mode>
 
   <small-table|<tabular|<tformat|<cwith|2|2|2|2|cell-valign|b>|<cwith|3|3|1|1|cell-valign|b>|<table|<row|<cell|<math|<inactive|<SI|20|degrees>>>>|<cell|<math|<SI|20|degrees>>>>|<row|<cell|<math|<inactive|<SI|10|minutes>>>>|<cell|<math|<SI|10|minutes>>>>|<row|<cell|<math|<inactive|<SI|15|seconds>>>>|<cell|<math|<SI|15|seconds>>>>>>>|>
+
+  <\session|scheme|default>
+    <\unfolded-io|Scheme] >
+      (procedure-source SIScheme)
+    <|unfolded-io>
+      (lambda (number unit) (set! number (tree-\<gtr\>stree number)) (set!
+      unit (tree-\<gtr\>stree unit)) (let* ((spacer (setSpacer unit))) (begin
+      (set! unit (setUnit unit)) (stree-\<gtr\>tree (quasiquote (concat
+      (unquote number) (unquote spacer) (with "math-font-family" "ms" (with
+      "math-font-shape" "right" (unquote unit)))))))))
+    </unfolded-io>
+
+    <\input|Scheme] >
+      \;
+    </input>
+  </session>
 </body>
 
 <initial|<\collection>
@@ -38,12 +54,12 @@
 
 <\references>
   <\collection>
-    <associate|auto-1|<tuple|1|1|../../v3/SI_test/test_SI.tm>>
-    <associate|auto-2|<tuple|2|1|../../v3/SI_test/test_SI.tm>>
-    <associate|auto-3|<tuple|3|1|../../v3/SI_test/test_SI.tm>>
-    <associate|auto-4|<tuple|1|1|../../v3/SI_test/test_SI.tm>>
-    <associate|auto-5|<tuple|3.1|?|../../v3/SI_test/test_SI.tm>>
-    <associate|auto-6|<tuple|2|?|../../v3/SI_test/test_SI.tm>>
+    <associate|auto-1|<tuple|1|1>>
+    <associate|auto-2|<tuple|2|1>>
+    <associate|auto-3|<tuple|3|1>>
+    <associate|auto-4|<tuple|1|1>>
+    <associate|auto-5|<tuple|3.1|?>>
+    <associate|auto-6|<tuple|2|?>>
   </collection>
 </references>
 
@@ -51,6 +67,8 @@
   <\collection>
     <\associate|table>
       <tuple|normal|<surround|<hidden-binding|<tuple>|1>||>|<pageref|auto-4>>
+
+      <tuple|normal|<surround|<hidden-binding|<tuple>|2>||>|<pageref|auto-6>>
     </associate>
     <\associate|toc>
       <with|par-left|<quote|4tab>|Outside math mode
@@ -64,6 +82,9 @@
       <with|par-left|<quote|4tab>|Exceptions
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-3><vspace|0.15fn>>
+
+      Exceptions - math mode <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <no-break><pageref|auto-5><vspace|0.15fn>
     </associate>
   </collection>
 </auxiliary>
